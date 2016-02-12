@@ -70,7 +70,6 @@
   bindsym $mod+Shift+f exec abrowser
   bindsym $mod+Return exec i3-sensible-terminal
   bindsym $mod+d exec rofi -show run
-  bindsym --release Print exec imgur-screenshot
   bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
 # Volume & Media Bindings
@@ -85,7 +84,6 @@
 # Startup Programs
   exec --no-startup-id nm-applet
   exec --no-startup-id dunst
-  exec --no-startup-id dropbox
   exec_always --no-startup-id feh --bg-scale ~/Pictures/Wallpaper/wallpaper.jpg
 
 # Workspace-Related Bindings

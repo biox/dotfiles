@@ -17,76 +17,54 @@
   set $base0D #97bbf7
   set $base0E #c0b7f9
   set $base0F #fcc09e
+  new_window none
 
-  set $workspace1 "1: "
+# Hide borders & font
+  hide_edge_borders both
+  font pango:System San Francisco Display 10
+  gaps inner 10
+  gaps outer 10
+  smart_gaps on
+
+# basic commands
+  bindsym $mod+Return exec urxvt
+  bindsym $mod+Shift+q kill
+  bindsym $mod+p exec cmus-remote --pause
+  bindsym $mod+d exec rofi -show run
+  bindsym $mod+shift+f exec chromium
+  bindsym $mod+f fullscreen toggle
+  bindsym $mod+e exec pcmanfm
+  bindsym $mod+Shift+space floating toggle
+  bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+  bindsym $mod+Shift+r restart
+  bindsym $mod+shift+x exec ~/.config/i3/scripts/pixellock.sh
+  bindsym $mod+Shift+c reload
+
+# move focused window
+  bindsym $mod+Left focus left
+  bindsym $mod+Down focus down
+  bindsym $mod+Up focus up
+  bindsym $mod+Right focus right
+  bindsym $mod+Shift+Left move left
+  bindsym $mod+Shift+Down move down
+  bindsym $mod+Shift+Up move up
+  bindsym $mod+Shift+Right move right
+  bindsym $mod+h split h;exec notify-send -t 800 'tile horizontally'
+  bindsym $mod+v split v;exec notify-send -t 800 'tile vertically'
+  floating_modifier $mod
+
+# Workspace garbage
+  set $workspace1 "1: "
   set $workspace2 "2: "
-  set $workspace3 "3: "
-  set $workspace4 "4: "
+  set $workspace3 "3: "
+  set $workspace4 "4: "
   set $workspace5 "5: "
   set $workspace6 "6: "
   set $workspace7 "7: "
-  set $workspace8 "8: "
+  set $workspace8 "8: "
   set $workspace9 "9: "
   set $workspace10 "10: "
 
-# General Configuration
-  font pango:System San Francisco Display 10
-  floating_modifier $mod
-  hide_edge_borders both
-  new_window none
-  smart_borders on
-  gaps inner 0
-  gaps outer 0
-
-# Window-Related Bindings
-  bindsym $mod+Shift+q kill
-  bindsym $mod+h focus left
-  bindsym $mod+j focus down
-  bindsym $mod+k focus up
-  bindsym $mod+l focus right
-  bindsym $mod+Shift+h move left
-  bindsym $mod+Shift+j move down
-  bindsym $mod+Shift+k move up
-  bindsym $mod+Shift+l move right
-  bindsym $mod+Shift+space floating toggle
-  bindsym $mod+f fullscreen toggle
-  bindsym $mod+v layout toggle split
-  #bindsym $mod+h split h
-  #bindsym $mod+space focus mode_toggle
-  bindsym $mod+r mode "  "
-  mode "  " {
-    bindsym h resize shrink width 10 px or 10 ppt
-    bindsym j resize grow height 10 px or 10 ppt
-    bindsym k resize shrink height 10 px or 10 ppt
-    bindsym l resize grow width 10 px or 10 ppt
-    bindsym Escape mode "default"
-  }
-
-# Restart-Related Bindings
-  bindsym $mod+Shift+c reload
-  bindsym $mod+Shift+r restart
-
-# Program-Related Bindings
-  bindsym $mod+Shift+f exec abrowser
-  bindsym $mod+Return exec urxvt
-  bindsym $mod+d exec rofi -show run
-  bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
-
-# Volume & Media Bindings
-  bindsym XF86AudioLowerVolume exec --no-startup-id pulseaudio-ctl down
-  bindsym XF86AudioRaiseVolume exec --no-startup-id pulseaudio-ctl up
-  bindsym XF86AudioMute exec --no-startup-id pulseaudio-ctl mute
-  bindsym XF86AudioPlay exec playerctl play-pause
-  bindsym XF86AudioPause exec playerctl pause
-  bindsym XF86AudioNext exec playerctl next
-  bindsym XF86AudioPrev exec playerctl previous
-
-# Startup Programs
-  exec --no-startup-id nm-applet
-  exec --no-startup-id dunst
-  exec_always --no-startup-id feh --bg-scale ~/Pictures/Wallpaper/wallpaper.jpg
-
-# Workspace-Related Bindings
   bindsym $mod+1 workspace $workspace1
   bindsym $mod+2 workspace $workspace2
   bindsym $mod+3 workspace $workspace3
@@ -98,6 +76,7 @@
   bindsym $mod+9 workspace $workspace9
   bindsym $mod+0 workspace $workspace10
 
+# Move focused container to workspace and don't move with it
   bindsym $mod+Shift+1 move container to workspace $workspace1
   bindsym $mod+Shift+2 move container to workspace $workspace2
   bindsym $mod+Shift+3 move container to workspace $workspace3
@@ -109,33 +88,28 @@
   bindsym $mod+Shift+9 move container to workspace $workspace9
   bindsym $mod+Shift+0 move container to workspace $workspace10
 
-# Workspace Monitors
-  workspace $workspace1 output $monitor1
-  workspace $workspace2 output $monitor1
-  workspace $workspace3 output $monitor1
-  workspace $workspace4 output $monitor1
-  workspace $workspace5 output $monitor1
-  workspace $workspace6 output $monitor1
-  workspace $workspace9 output $monitor1
-  workspace $workspace10 output $monitor1
+# Open applications on specific workspaces
+  assign [class="chromium"] $workspace1
+  assign [class="Steam"] $workspace3
 
-# Program Workspaces
-  assign [class="Abrowser"] $workspace1
-#  assign [class="cmus or something"] $workspace10
-
-# Floating
+# Open specific applications in floating mode
+  for_window [class="^.*"] border pixel 2
   for_window [class="Lxappearance"] floating enable
-  for_window [class="Seahorse"] floating enable
   for_window [class="Pavucontrol"] floating enable
+  for_window [class="Keepassx2"] floating enable
 
-# Widow Colours
-#                         border  background text    indicator
-  client.focused          $base01 $base01    $base07 $base0F
-  client.focused_inactive $base02 $base02    $base03 $base0F
-  client.unfocused        $base02 $base02    $base03 $base0F
-  client.urgent           $base02 $base08    $base00 $base0F
+# Resize window (you can also use the mouse for that)
+  bindsym $mod+r mode "  "
+  mode "  " {
+    bindsym h resize shrink width 10 px or 10 ppt
+    bindsym j resize grow height 10 px or 10 ppt
+    bindsym k resize shrink height 10 px or 10 ppt
+    bindsym l resize grow width 10 px or 10 ppt
+    bindsym Escape mode "default"
+  }
 
-# Bar
+# Lock screen
+
   bar {
     font pango: System San Francisco Display, FontAwesome 11
     status_command i3blocks
@@ -156,4 +130,10 @@
     }
   }
 
-bindsym $mod+shift+x exec i3lock
+# Autostart applications
+exec --no-startup-id nitrogen --restore
+exec --no-startup-id nm-applet
+exec --no-startup-id ~/.config/i3/scripts/syncthing/syncthing -no-browser
+#exec --no-startup-id xfce4-power-manager
+exec --no-startup-id compton --config "/home/jesse/.config/compton.conf" -b
+exec --no-startup-id pulseaudio

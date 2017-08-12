@@ -1,0 +1,5 @@
+AwesomePrint.defaults = {
+  :color => {
+    :array => :greenish
+  }
+}

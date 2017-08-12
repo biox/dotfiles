@@ -1,0 +1,13 @@
+{
+  "highlight": true,
+  "tagsymbols": "@",
+  "editor": "vim",
+  "linewrap": 79,
+  "timeformat": "%Y-%m-%d %H:%M",
+  "default_minute": 0,
+  "encrypt": true,
+  "default_hour": 9,
+  "journals": {
+    "default": "/home/jesse/Nextcloud/journal.txt"
+  }
+}

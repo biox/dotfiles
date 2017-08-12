@@ -1,0 +1,37 @@
+[general]
+accounts = arkham,icloud
+maxsyncaccounts = 3
+pythonfile = ~/.offlineimap.py
+socktimeout = 10
+
+[Account arkham]
+localrepository = alocal
+remoterepository = rarkham
+
+[Account icloud]
+localrepository = ilocal
+remoterepository = ricloud
+
+[Repository alocal]
+type = Maildir
+localfolders = ~/mail/arkham
+
+[Repository ilocal]
+type = Maildir
+localfolders = ~/mail/icloud
+
+[Repository rarkham]
+type = IMAP
+remotehost = mx.example.com
+remoteuser = me@example.com
+remotepasseval = get_pass('arkham')
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+maxconnections = 3
+
+[Repository ricloud]
+type = IMAP
+remotehost = imap.mail.me.com
+remoteuser = exampleuser
+remotepasseval = get_pass('icloud')
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+maxconnections = 3

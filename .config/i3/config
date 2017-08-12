@@ -19,51 +19,54 @@
   set $base0F #fcc09e
   new_window none
 
-# Hide borders & font
-  hide_edge_borders both
-  font pango:System San Francisco Display 10
-  gaps inner 10
-  gaps outer 10
-  smart_gaps on
+# Font
+  font pango:Misc Tamsyn
 
 # basic commands
-  bindsym $mod+Return exec urxvt
-  bindsym $mod+Shift+q kill
+  bindsym $mod+Return exec alacritty
+  bindsym $mod+shift+q kill
   bindsym $mod+p exec cmus-remote --pause
+  bindsym $mod+equal exec cmus-remote --volume +5%
+  bindsym $mod+minus exec cmus-remote --volume -5%
   bindsym $mod+d exec rofi -show run
-  bindsym $mod+shift+f exec chromium
+#  bindsym $mod+q exec firefox
   bindsym $mod+f fullscreen toggle
-  bindsym $mod+e exec pcmanfm
+#  bindsym $mod+e exec code
   bindsym $mod+Shift+space floating toggle
   bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
   bindsym $mod+Shift+r restart
   bindsym $mod+shift+x exec ~/.config/i3/scripts/pixellock.sh
   bindsym $mod+Shift+c reload
+  bindsym Print exec scrot -e 'mv $f /tmp/'
+
+# music commands
+  bindsym $mod+Mod1+Right exec mpc next
+  bindsym $mod+Mod1+Left exec mpc prev
 
 # move focused window
-  bindsym $mod+Left focus left
-  bindsym $mod+Down focus down
-  bindsym $mod+Up focus up
-  bindsym $mod+Right focus right
-  bindsym $mod+Shift+Left move left
-  bindsym $mod+Shift+Down move down
-  bindsym $mod+Shift+Up move up
-  bindsym $mod+Shift+Right move right
-  bindsym $mod+h split h;exec notify-send -t 800 'tile horizontally'
+  bindsym $mod+h focus left
+  bindsym $mod+j focus down
+  bindsym $mod+k focus up
+  bindsym $mod+l focus right
+  bindsym $mod+Shift+h move left
+  bindsym $mod+Shift+j move down
+  bindsym $mod+Shift+k move up
+  bindsym $mod+Shift+l move right
+  bindsym $mod+b split h;exec notify-send -t 800 'tile horizontally'
   bindsym $mod+v split v;exec notify-send -t 800 'tile vertically'
   floating_modifier $mod
 
 # Workspace garbage
-  set $workspace1 "1: "
-  set $workspace2 "2: "
-  set $workspace3 "3: "
-  set $workspace4 "4: "
-  set $workspace5 "5: "
+  set $workspace1 "1: web"
+  set $workspace2 "2: term"
+  set $workspace3 "3: steam"
+  set $workspace4 "4: mail"
+  set $workspace5 "5: chat"
   set $workspace6 "6: "
   set $workspace7 "7: "
   set $workspace8 "8: "
-  set $workspace9 "9: "
-  set $workspace10 "10: "
+  set $workspace9 "9: "
+  set $workspace10 "10: "
 
   bindsym $mod+1 workspace $workspace1
   bindsym $mod+2 workspace $workspace2
@@ -89,31 +92,35 @@
   bindsym $mod+Shift+0 move container to workspace $workspace10
 
 # Open applications on specific workspaces
-  assign [class="chromium"] $workspace1
+  assign [class="firefox"] $workspace1
   assign [class="Steam"] $workspace3
+  assign [class="Astroid"] $workspace4
+  assign [class="Mumble"] $workspace5
 
 # Open specific applications in floating mode
-  for_window [class="^.*"] border pixel 2
+  for_window [class="^.*"] border pixel 4
+  for_window [class="Audacity"] floating enable
+  for_window [class="Keepassx2"] floating enable
   for_window [class="Lxappearance"] floating enable
   for_window [class="Pavucontrol"] floating enable
-  for_window [class="Keepassx2"] floating enable
+  for_window [class="Mumble"] floating enable
 
 # Resize window (you can also use the mouse for that)
-  bindsym $mod+r mode "  "
-  mode "  " {
-    bindsym h resize shrink width 10 px or 10 ppt
-    bindsym j resize grow height 10 px or 10 ppt
-    bindsym k resize shrink height 10 px or 10 ppt
-    bindsym l resize grow width 10 px or 10 ppt
-    bindsym Escape mode "default"
-  }
+#  bindsym $mod+r mode "  "
+#r  mode "  " {
+#    bindsym h resize shrink width 10 px or 10 ppt
+#    bindsym j resize grow height 10 px or 10 ppt
+#    bindsym k resize shrink height 10 px or 10 ppt
+#    bindsym l resize grow width 10 px or 10 ppt
+#    bindsym Escape mode "default"
+#  }
 
 # Lock screen
 
   bar {
-    font pango: System San Francisco Display, FontAwesome 11
+    font pango: Misc Tamsyn, 10
     status_command i3blocks
-    position bottom
+    position top
     strip_workspace_numbers yes
     height 25
     bindsym button4 nop
@@ -133,7 +140,11 @@
 # Autostart applications
 exec --no-startup-id nitrogen --restore
 exec --no-startup-id nm-applet
-exec --no-startup-id ~/.config/i3/scripts/syncthing/syncthing -no-browser
-#exec --no-startup-id xfce4-power-manager
+exec --no-startup-id dunst
 exec --no-startup-id compton --config "/home/jesse/.config/compton.conf" -b
-exec --no-startup-id pulseaudio
+exec --no-startup-id setxkbmap -option ctrl:nocaps
+exec --no-startup-id redshift-gtk
+exec --no-startup-id steam
+exec --no-startup-id systemctl --user import-environment DISPLAY XAUTHORITY
+exec --no-startup-id dbus-update-activation-environment --systemd --all
+exec --no-startup-id owncloud
